@@ -18,7 +18,7 @@
     },
     "scripts": {
         "phpstan": [
-            "vendor/bin/phpstan analyze --level max public"
+            "php vendor/bin/phpstan analyze --level max public"
         ],
         "phpmd": [
             "phpmd public xml test/rulesets.xml"
