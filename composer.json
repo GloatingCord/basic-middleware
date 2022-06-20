@@ -1,0 +1,39 @@
+{
+    "name": "gloatingcord26/skeleton",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "GloatingCord26\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GloatingCord26\\Test\\": "test/"
+        }
+    },
+    "require-dev": {
+        "phpstan/phpstan": "^1.7",
+        "phpunit/phpunit": "^9.5",
+        "phpmd/phpmd": "^2.12"
+    },
+    "scripts": {
+        "phpstan": [
+            "vendor/bin/phpstan analyze --level max public"
+        ],
+        "phpmd": [
+            "phpmd public xml test/rulesets.xml"
+        ],
+        "phpunit": [
+            "vendor/bin/phpunit test/OutputTest.php"
+        ],
+        "test": [
+            "@phpmd",
+            "@phpstan"
+        ]
+    },
+    "require": {
+        "nyholm/psr7": "^1.5",
+        "nyholm/psr7-server": "^1.0",
+        "laminas/laminas-httphandlerrunner": "^2.1"
+    }
+}
