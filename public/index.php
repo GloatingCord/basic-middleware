@@ -2,6 +2,14 @@
 
 require_once '../vendor/autoload.php';
 
+use GloatingCord26\AuthMiddleware;
+use GloatingCord26\Handler\TrafficHandler;
+use GloatingCord26\Handler\WeatherHandler;
+use GloatingCord26\HeaderMiddleware;
+use GloatingCord26\ResourceMiddleware;
+use GloatingCord26\RouteMiddleware;
+use GloatingCord26\SessionMiddleware;
+
 // Instanciate ANY PSR-17 factory implementations. Here is nyholm/psr7 as an example
 $psr17Factory = new \Nyholm\Psr7\Factory\Psr17Factory();
 
@@ -14,24 +22,21 @@ $creator = new \Nyholm\Psr7Server\ServerRequestCreator(
 
 $serverRequest = $creator->fromGlobals();
 
-if ('/' === $serverRequest->getUri()->getPath()) {
-    $responseBody = $psr17Factory->createStream('Hello world');
-    $response = $psr17Factory->createResponse(200)->withBody($responseBody);
-}
+$queue[] = new AuthMiddleware(
+    [
+        'Authorization' => 'secret',
+    ]
+);
+$queue[] = new HeaderMiddleware();
+$queue[] = new SessionMiddleware();
+$queue[] = new RouteMiddleware('');
+$queue[] = new ResourceMiddleware(
+    [
+        'traffic' => new TrafficHandler(),
+        'weather' => new WeatherHandler(),
+    ]
+);
 
-if ('/so' === $serverRequest->getUri()->getPath()) {
-    $responseBody = $psr17Factory->createStream('Hello world from so');
-    $response = $psr17Factory->createResponse(200)->withBody($responseBody);
-}
+$relay = new Relay\Relay($queue);
 
-if ('/api/v2' === $serverRequest->getUri()->getPath()) {
-    $responseBody = $psr17Factory->createStream('this is an api');
-    $response = $psr17Factory->createResponse(200)->withAddedHeader('Authorization', 'Nothing to see here')->withBody($responseBody);
-}
-
-if (!isset($response)) {
-    $responseBody = $psr17Factory->createStream('Page not found');
-    $response = $psr17Factory->createResponse(404)->withBody($responseBody);
-}
-
-(new \Laminas\HttpHandlerRunner\Emitter\SapiEmitter())->emit($response);
+(new \Laminas\HttpHandlerRunner\Emitter\SapiEmitter())->emit($relay->handle($serverRequest));

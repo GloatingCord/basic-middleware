@@ -34,6 +34,7 @@
     "require": {
         "nyholm/psr7": "^1.5",
         "nyholm/psr7-server": "^1.0",
-        "laminas/laminas-httphandlerrunner": "^2.1"
+        "laminas/laminas-httphandlerrunner": "^2.1",
+        "relay/relay": "^2.1"
     }
 }
