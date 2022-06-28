@@ -36,6 +36,7 @@ $queue[] = new ResourceMiddleware(
         'weather' => new WeatherHandler(),
     ]
 );
+$queue[] = new SessionMiddleware();
 
 $relay = new Relay\Relay($queue);
 

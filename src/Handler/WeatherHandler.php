@@ -2,7 +2,7 @@
 
 namespace GloatingCord26\Handler;
 
-use Laminas\Diactoros\Response\JsonResponse;
+use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -19,11 +19,6 @@ class WeatherHandler implements RequestHandlerInterface
 
         $icon = array_rand($options);
 
-        return new JsonResponse(
-            [
-                'status' => $options[$icon],
-                'friendly' => 'The weather is '.$options[$icon],
-            ]
-        );
+        return new Response(200, [], 'hello trafic is '.$icon);
     }
 }

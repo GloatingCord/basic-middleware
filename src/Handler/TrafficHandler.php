@@ -2,7 +2,7 @@
 
 namespace GloatingCord26\Handler;
 
-use Laminas\Diactoros\Response\JsonResponse;
+use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\RequestHandlerInterface;
@@ -13,11 +13,6 @@ class TrafficHandler implements RequestHandlerInterface
     {
         $status = rand(0, 1) ? 'bad' : 'good';
 
-        return new JsonResponse(
-            [
-                'status' => $status,
-                'friendly' => "The traffic is {$status}",
-            ]
-        );
+        return new Response(200, [], 'hello trafic is '.$status);
     }
 }
