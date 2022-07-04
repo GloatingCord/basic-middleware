@@ -1,6 +1,6 @@
 <?php
 
-namespace GloatingCord26\Handler;
+namespace GloatingCord26\Middleware\Handler;
 
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;

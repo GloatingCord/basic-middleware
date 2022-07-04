@@ -1,9 +1,9 @@
 <?php
 
-namespace GloatingCord26;
+namespace GloatingCord26\Middleware;
 
-use GloatingCord26\Handler\IndexHandler;
-use GloatingCord26\Handler\NotFoundHandler;
+use GloatingCord26\Middleware\Handler\IndexHandler as HandlerIndexHandler;
+use GloatingCord26\Middleware\Handler\NotFoundHandler as HandlerNotFoundHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -20,13 +20,13 @@ class RouteMiddleware implements MiddlewareInterface
         $path = $request->getUri()->getPath();
 
         if ('/' === $path) {
-            $handler = new IndexHandler();
+            $handler = new HandlerIndexHandler();
 
             return $handler->handle($request);
         }
 
         if (strpos($path, $this->basePath)) {
-            $handler = new NotFoundHandler();
+            $handler = new HandlerNotFoundHandler();
 
             return $handler->handle($request);
         }

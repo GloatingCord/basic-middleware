@@ -8,22 +8,18 @@ use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 
-class ResourceMiddleware implements MiddlewareInterface
+class NotFoundMiddleware implements MiddlewareInterface
 {
-    public function __construct(private array $handlers)
+    public function __construct(private array $keys = [])
     {
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
-        $route = $request->getAttribute('route');
-
-        if (!$route || !isset($this->handlers[$route]) || !($this->handlers[$route] instanceof RequestHandlerInterface)) {
+        if ('/so' === $request->getUri()->getPath()) {
             $handler = new HandlerNotFoundHandler();
-
-            return $handler->handle($request);
         }
 
-        return $this->handlers[$route]->handle($request);
+        return $handler->handle($request);
     }
 }
