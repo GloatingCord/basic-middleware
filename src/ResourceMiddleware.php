@@ -2,7 +2,7 @@
 
 namespace GloatingCord26\Middleware;
 
-use GloatingCord26\Middleware\Handler\NotFoundHandler as HandlerNotFoundHandler;
+use GloatingCord26\Middleware\Handler\NotFoundHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -19,7 +19,7 @@ class ResourceMiddleware implements MiddlewareInterface
         $route = $request->getAttribute('route');
 
         if (!$route || !isset($this->handlers[$route]) || !($this->handlers[$route] instanceof RequestHandlerInterface)) {
-            $handler = new HandlerNotFoundHandler();
+            $handler = new NotFoundHandler();
 
             return $handler->handle($request);
         }

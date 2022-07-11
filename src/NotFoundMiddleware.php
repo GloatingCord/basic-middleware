@@ -2,7 +2,7 @@
 
 namespace GloatingCord26\Middleware;
 
-use GloatingCord26\Middleware\Handler\NotFoundHandler as HandlerNotFoundHandler;
+use GloatingCord26\Middleware\Handler\NotFoundHandler;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -17,7 +17,7 @@ class NotFoundMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         if ('/so' === $request->getUri()->getPath()) {
-            $handler = new HandlerNotFoundHandler();
+            $handler = new NotFoundHandler();
         }
 
         return $handler->handle($request);
